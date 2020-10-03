@@ -1,0 +1,116 @@
+{
+  "Thumbnails": [
+    {
+      "Id": 0,
+      "Description": "Vous etes devant une porte",
+      "Background": "door.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 1,
+          "Description": "Aller à gauche"
+        },
+        {
+          "LinkedThumbnail": 2,
+          "Description": "Aller à droite"
+        },
+        {
+          "LinkedThumbnail": 4,
+          "Description": "Utiliser la clef",
+          "NeededItem": 1
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Description": "Vous etes devant des caisses",
+      "Background": "crates.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 0,
+          "Description": "Aller à droite"
+        },
+        {
+          "LinkedThumbnail":    7,
+          "Description": "Fouiller les caisses"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Description": "Vous etes devant un cul de sac, un coffre au sol",
+      "Background": "wall.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 0,
+          "Description": "Aller à gauche"
+        },
+        {
+          "LinkedThumbnail": 3,
+          "Description": "Ouvrir le coffre"
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "GivenItem": 2,
+      "Description": "Le coffre contient une épée que vous prenez",
+      "Background": "findSword.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 2,
+          "Description": "Cool !"
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "Description": "Un mourad furieux vous attaque",
+      "Background": "mourad.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 5,
+          "Description": "Impossible de le vaincre, je suis fini"
+        },
+        {
+          "LinkedThumbnail": 6,
+          "Description": "Je vais utiliser mon épée pour terrasser le mourad",
+          "NeededItem": 2
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "Description": "Le mourad vous dévore !!!!",
+      "Background": "badEnding.png",
+      "Choices": []
+    },
+    {
+      "Id": 6,
+      "Description": "Vous avez vaincu le mourad, le trésor est à vous !",
+      "Background": "goodEnding.png",
+      "Choices": []
+    },
+    {
+      "Id": 7,
+      "Description": "Vous trouvez une clef !",
+      "Background": "findKey.png",
+      "Choices": [
+        {
+          "LinkedThumbnail": 1,
+          "Description": "Cool !"
+        }
+      ],
+      "GivenItem": 1
+    }
+  ],
+  "Items": [
+    {
+      "Id": 1,
+      "Image": "findKey.png"
+    },
+    {
+      "Id": 2,
+      "Image": "findSword.png"
+    }
+  ]
+}
