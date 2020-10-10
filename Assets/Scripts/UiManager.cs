@@ -16,6 +16,7 @@ public class UiManager : MonoBehaviour
    public GameObject PanelObject;
    public Image BackGround;
    public GameObject BoutonChoix;
+   public GameObject ItemImg;
    [HideInInspector] public TMP_Text InfoText;
 
    private bool _isHiden;
@@ -25,16 +26,18 @@ public class UiManager : MonoBehaviour
       InfoText = PanelInfotext.GetComponentInChildren<TMP_Text>();
    }
 
-   public void RefreshThumbnail(Thumbnail scene)
+   public void RefreshThumbnail(Thumbnail scene, Story story)
    {
-      if (scene.GivenItem > 0)
+      ChoixShowHide();
+      if (scene.GivenItem > 0 && !GameManager.Inventory.Contains(story.Items.FirstOrDefault(item => item.Id == scene.GivenItem)))
       {
-         GameManager.Inventory.Add(GameManager.Story.Items.FirstOrDefault(item => item.Id == scene.GivenItem));
+         Item iteme = story.Items.FirstOrDefault(item => item.Id == scene.GivenItem);
+         GameManager.Inventory.Add(iteme);
+         GameObject S = Instantiate(ItemImg, PanelObject.transform);
+         S.GetComponent<Image>().sprite = GameManager.LoadSprite(iteme.Image);
       }
       InfoText.text = scene.Description;
-      BackGround.sprite = Resources.Load<Sprite>(Application.streamingAssetsPath +"/"+ scene.Background);
-      ChoixShowHide();
-      GameManager.LoadSprite(scene.Background);
+      BackGround.sprite = GameManager.LoadSprite(scene.Background);
       foreach (Transform transform in PanelChoix.transform)
       {
          Destroy(transform.gameObject);
@@ -42,14 +45,16 @@ public class UiManager : MonoBehaviour
       foreach (Choice choix in scene.Choices)
       {
          Item firstOrDefault = GameManager.Inventory.FirstOrDefault(item => item.Id == choix.NeededItem);
+         
          if (choix.NeededItem > 0 && firstOrDefault == null) continue;
          GameObject bp = Instantiate(BoutonChoix, PanelChoix.transform);
          bp.GetComponentInChildren<TMP_Text>().text = choix.Description;
          bp.GetComponent<Button>().onClick.AddListener(delegate
          {
-            RefreshThumbnail(GameManager.Story.Thumbnails
-               .FirstOrDefault(thumb=>thumb.Id==choix.LinkedThumbnail));
-         });
+            RefreshThumbnail(story.Thumbnails
+               .FirstOrDefault(thumb=>thumb.Id == choix.LinkedThumbnail), story);
+         }
+            );
       }
 
    }
@@ -58,12 +63,14 @@ public class UiManager : MonoBehaviour
    {
       if (_isHiden)
       {
-         PanelChoix.SetActive(true);
+         LeanTween.moveY(PanelChoix, -31, 0.25f);
+        //PanelChoix.SetActive(true);
          _isHiden = false;
       }
       else
       {
-         PanelChoix.SetActive(false);
+         LeanTween.moveLocalY(PanelChoix, -73, 0.25f);
+         //PanelChoix.SetActive(false);
          _isHiden = true;
       }
    }

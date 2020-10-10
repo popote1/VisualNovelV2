@@ -1,10 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
-    public static  Story Story;
+
+    public enum mode
+    {
+        Load,
+        Save
+    };
+
+    public mode Mode;
+    public Story Story;
     public static List<Item> Inventory = new List<Item>();
     public UiManager StoryUi;
     public string StoryFileName;
@@ -13,9 +23,17 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         CheckDirectory();
-//        SaveStory(path, Story);
-        Story = LoadStory(StoryFileName);
-        StoryUi.RefreshThumbnail(Story.Thumbnails.Find(thumbnail => thumbnail.Id == 0));
+        switch(Mode)
+        {
+            case mode.Load :
+                Story = LoadStory(StoryFileName);
+                StoryUi.RefreshThumbnail(Story.Thumbnails.Find(thumbnail => thumbnail.Id == 0), Story);
+                break;
+            case mode .Save :
+                SaveStory(StoryFileName, Story);
+                break;
+        }
+        
     }
 
     private void CheckDirectory() {
